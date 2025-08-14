@@ -1,0 +1,53 @@
+.home {
+  max-width: 860px;
+  margin: 24px auto 0;
+  padding: 0 1rem;
+}
+
+.home__title {
+  margin: 0 0 8px 0;
+}
+
+.home__hint {
+  margin: 0 0 12px 0;
+  color: #555;
+}
+
+.home__form {
+  display: grid;
+  gap: 8px;
+}
+
+.home__label {
+  font-weight: 600;
+}
+
+.home__textarea {
+  width: 100%;
+  padding: 12px;
+  font: inherit;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.home__actions {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+}
+
+.button {
+  padding: 8px 14px;
+  border: 1px solid #ccc;
+  background: #f7f7f7;
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.button--secondary {
+  background: white;
+}

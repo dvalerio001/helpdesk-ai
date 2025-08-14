@@ -1,0 +1,39 @@
+.result {
+  max-width: 860px;
+  margin: 24px auto 0;
+  padding: 0 1rem;
+}
+
+.result__title {
+  margin: 0 0 12px 0;
+}
+
+.result__block {
+  margin: 16px 0;
+}
+
+.result__subtitle {
+  margin: 0 0 8px 0;
+}
+
+.result__list {
+  padding-left: 1.25rem;
+  margin: 0;
+}
+
+.result__item {
+  margin: 4px 0;
+}
+
+.result__rationale {
+  margin-top: 16px;
+  color: #333;
+}
+
+.result__status {
+  color: #555;
+}
+
+.result__error {
+  color: #b00020;
+}

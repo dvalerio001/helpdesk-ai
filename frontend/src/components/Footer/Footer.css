@@ -1,0 +1,10 @@
+.footer {
+  max-width: 860px;
+  margin: 24px auto 40px;
+  padding: 0 1rem;
+}
+
+.footer__link {
+  color: inherit;
+  text-decoration: underline;
+}
