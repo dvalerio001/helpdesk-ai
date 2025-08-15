@@ -1,9 +1,18 @@
-import "dotenv/config"; // loads .env before importing anything that reads process.env
-import app from "./app.js";
+import * as dotenv from "dotenv";
+dotenv.config();
+
+import app from "./app.js";            // <-- this must point to app.js
+import connectDB from "./db.js";
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`API listening on http://localhost:${PORT}`);
-});
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`API listening on http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Failed to connect to MongoDB:", err.message);
+    process.exit(1);
+  });
