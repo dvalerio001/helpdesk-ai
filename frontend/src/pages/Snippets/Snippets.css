@@ -1,0 +1,30 @@
+.snippets {
+  max-width: 860px;
+  margin: 24px auto 0;
+  padding: 0 1rem;
+}
+
+.snippets__title { margin: 0 0 12px 0; }
+
+.snippets__form { display: grid; gap: 8px; margin-bottom: 16px; }
+.snippets__label { font-weight: 600; }
+.snippets__input, .snippets__textarea {
+  width: 100%; padding: 10px; font: inherit; box-sizing: border-box;
+}
+
+.snippets__actions { display: flex; gap: 8px; margin-top: 6px; }
+
+.snippets__error { color: #b00020; }
+.snippets__status { color: #555; }
+
+.snippets__list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.snippets__card { border: 1px solid #ddd; padding: 12px; border-radius: 6px; background: #fff; }
+.snippets__card-head { display: flex; justify-content: space-between; align-items: center; }
+.snippets__card-title { margin: 0; font-size: 1.05rem; }
+.snippets__card-body { white-space: pre-wrap; margin: 8px 0 0 0; }
+.snippets__tags { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
+.snippets__tag { background: #f1f1f1; padding: 2px 6px; border-radius: 10px; font-size: 0.85rem; }
+
+.button { padding: 8px 14px; border: 1px solid #ccc; background: #f7f7f7; cursor: pointer; }
+.button:disabled { opacity: 0.6; cursor: not-allowed; }
+.button--secondary { background: white; }

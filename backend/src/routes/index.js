@@ -2,6 +2,8 @@ import { Router } from "express";
 import { celebrate, Joi, Segments } from "celebrate";
 import { signup, signin, getMe } from "../controllers/auth.js";
 import auth from "../middlewares/auth.js";
+import snippetsRouter from "./snippets.js";
+
 
 const router = Router();
 
@@ -31,5 +33,7 @@ router.post(
 
 // Protected
 router.get("/users/me", auth, getMe);
+router.use("/snippets", snippetsRouter); //api/snippets
+
 
 export default router;
