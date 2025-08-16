@@ -3,6 +3,7 @@ import { celebrate, Joi, Segments } from "celebrate";
 import { signup, signin, getMe } from "../controllers/auth.js";
 import auth from "../middlewares/auth.js";
 import snippetsRouter from "./snippets.js";
+import aiRouter from "./ai.js";
 
 
 const router = Router();
@@ -31,9 +32,11 @@ router.post(
   signin
 );
 
+
 // Protected
 router.get("/users/me", auth, getMe);
 router.use("/snippets", snippetsRouter); //api/snippets
+router.use("/ai", aiRouter);
 
 
 export default router;
