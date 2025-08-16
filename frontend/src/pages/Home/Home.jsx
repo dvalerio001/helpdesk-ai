@@ -22,7 +22,6 @@ function Home() {
     setFlash("");
     setLoading(true);
     setResult(RESULT_EMPTY);
-
     try {
       const data = await generateSolution(issue.trim());
       setResult({
@@ -46,14 +45,11 @@ function Home() {
   async function handleSave() {
     setError("");
     setFlash("");
-
     const token = localStorage.getItem("token");
     if (!token) {
-      // not logged in → send to signin
       nav("/signin");
       return;
     }
-
     setSaving(true);
     try {
       const { title, body, tags } = buildSnippetFromResult(issue, result);
@@ -66,50 +62,76 @@ function Home() {
     }
   }
 
-
   return (
     <section className="home">
-      <h2 className="home__title">Generator</h2>
-      <p className="home__hint">
-        Paste a brief customer issue. The app returns structured steps, commands, and risks.
-      </p>
+      <div className="container">
+        <div className="card home__card">
+          <h2 className="home__title">Generator</h2>
+          <p className="home__hint">
+            Paste a brief customer issue. Get steps, commands, and risks.
+          </p>
 
-      <form className="home__form" onSubmit={handleSubmit}>
-        <label className="home__label" htmlFor="issue">Issue</label>
-        <textarea
-          id="issue"
-          className="home__textarea"
-          value={issue}
-          onChange={(e) => setIssue(e.target.value)}
-          placeholder="Example: User cannot connect to VPN on Windows 11..."
-          rows={6}
-          required
-        />
-        <div className="home__actions">
-          <button className="button" type="submit" disabled={!issue.trim() || loading}>
-            {loading ? "Generating…" : "Generate"}
-          </button>
-          <button
-            className="button button--secondary"
-            type="button"
-            onClick={() => { setIssue(""); setResult(RESULT_EMPTY); setError(""); setFlash(""); }}
-            disabled={loading}
-          >
-            Clear
-          </button>
+          <form className="home__form" onSubmit={handleSubmit}>
+            <label className="home__label" htmlFor="issue">
+              Issue
+            </label>
+            <textarea
+              id="issue"
+              className="home__textarea"
+              value={issue}
+              onChange={(e) => setIssue(e.target.value)}
+              placeholder="Example: User cannot connect to VPN on Windows 11..."
+              rows={6}
+              required
+            />
+            <div className="home__actions">
+              <button
+                className="button"
+                type="submit"
+                disabled={!issue.trim() || loading}
+              >
+                {loading ? "Generating…" : "Generate"}
+              </button>
+              <button
+                className="button button--secondary"
+                type="button"
+                onClick={() => {
+                  setIssue("");
+                  setResult(RESULT_EMPTY);
+                  setError("");
+                  setFlash("");
+                }}
+                disabled={loading}
+              >
+                Clear
+              </button>
+            </div>
+          </form>
+
+          <div className="home__resultActions">
+            <button
+              className="button"
+              type="button"
+              onClick={handleSave}
+              disabled={!canSave}
+            >
+              {saving ? "Saving…" : "Save as Snippet"}
+            </button>
+            {flash && (
+              <span className="home__flash" role="status">
+                {flash}
+              </span>
+            )}
+            {error && (
+              <span className="home__error" role="alert">
+                {error}
+              </span>
+            )}
+          </div>
+
+          <Result data={result} loading={loading} error={error} />
         </div>
-      </form>
-
-      {/* Actions for the generated result */}
-      <div className="home__resultActions">
-        <button className="button" type="button" onClick={handleSave} disabled={!canSave}>
-          {saving ? "Saving…" : "Save as Snippet"}
-        </button>
-        {flash && <span className="home__flash" role="status">{flash}</span>}
-        {error && <span className="home__error" role="alert">{error}</span>}
       </div>
-
-      <Result data={result} loading={loading} error={error} />
     </section>
   );
 }

@@ -3,10 +3,12 @@ const API_KEY = import.meta.env.VITE_AI_API_KEY;
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
 const API_BASE = import.meta.env.VITE_API_BASE;
 
-
 // Helper: standard res->json + error for rubric (then->json + catch)
 function handleResponse(res) {
-  if (!res.ok) return res.text().then((t) => { throw new Error(t || res.statusText); });
+  if (!res.ok)
+    return res.text().then((t) => {
+      throw new Error(t || res.statusText);
+    });
   return res.json();
 }
 

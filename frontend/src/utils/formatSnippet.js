@@ -14,14 +14,18 @@ function pickTagsFromIssue(issue) {
 function buildSnippetFromResult(issue, result) {
   const rawTitle = issue.trim().replace(/\s+/g, " ");
   const title = rawTitle
-    ? (rawTitle.length > 80 ? `${rawTitle.slice(0, 77)}…` : rawTitle)
+    ? rawTitle.length > 80
+      ? `${rawTitle.slice(0, 77)}…`
+      : rawTitle
     : "AI plan";
 
   const parts = [];
   if (issue.trim()) parts.push(`Issue:\n${issue.trim()}`);
 
   if (Array.isArray(result?.steps) && result.steps.length) {
-    parts.push(`Steps:\n${result.steps.map((s, i) => `${i + 1}. ${s}`).join("\n")}`);
+    parts.push(
+      `Steps:\n${result.steps.map((s, i) => `${i + 1}. ${s}`).join("\n")}`
+    );
   }
 
   if (Array.isArray(result?.commands) && result.commands.length) {

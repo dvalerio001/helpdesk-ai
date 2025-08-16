@@ -17,7 +17,7 @@ function SignIn({ onAuth }) {
     try {
       const data = await signin({ email: email.trim(), password });
       localStorage.setItem("token", data.token);
-      onAuth(data.user);              // lift user to App
+      onAuth(data.user);
       nav("/snippets", { replace: true });
     } catch (e2) {
       setErr(e2.message || "Sign in failed");
@@ -28,40 +28,48 @@ function SignIn({ onAuth }) {
 
   return (
     <section className="auth">
-      <h2 className="auth__title">Sign in</h2>
-      <form className="auth__form" onSubmit={handleSubmit}>
-        <label className="auth__label" htmlFor="email">Email</label>
-        <input
-          id="email"
-          className="auth__input"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+      <div className="container">
+        <div className="card auth__card">
+          <h2 className="auth__title">Sign in</h2>
+          <form className="auth__form" onSubmit={handleSubmit}>
+            <label className="auth__label" htmlFor="email">
+              Email
+            </label>
+            <input
+              id="email"
+              className="auth__input"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
 
-        <label className="auth__label" htmlFor="password">Password</label>
-        <input
-          id="password"
-          className="auth__input"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          minLength={8}
-        />
+            <label className="auth__label" htmlFor="password">
+              Password
+            </label>
+            <input
+              id="password"
+              className="auth__input"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={8}
+            />
 
-        <div className="auth__actions">
-          <button className="button" type="submit" disabled={loading}>
-            {loading ? "Signing in…" : "Sign in"}
-          </button>
+            <div className="auth__actions">
+              <button className="button" type="submit" disabled={loading}>
+                {loading ? "Signing in…" : "Sign in"}
+              </button>
+            </div>
+
+            {err && <p className="auth__error">{err}</p>}
+            <p className="auth__hint">
+              No account? <Link to="/signup">Create one</Link>
+            </p>
+          </form>
         </div>
-
-        {err && <p className="auth__error">{err}</p>}
-        <p className="auth__hint">
-          No account? <Link to="/signup">Create one</Link>
-        </p>
-      </form>
+      </div>
     </section>
   );
 }

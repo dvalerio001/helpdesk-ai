@@ -5,7 +5,6 @@ import auth from "../middlewares/auth.js";
 import snippetsRouter from "./snippets.js";
 import aiRouter from "./ai.js";
 
-
 const router = Router();
 
 // Public
@@ -32,11 +31,9 @@ router.post(
   signin
 );
 
-
 // Protected
 router.get("/users/me", auth, getMe);
 router.use("/snippets", snippetsRouter); //api/snippets
 router.use("/ai", aiRouter);
-
 
 export default router;

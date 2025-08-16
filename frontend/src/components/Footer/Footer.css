@@ -1,10 +1,31 @@
 .footer {
-  max-width: 860px;
-  margin: 24px auto 40px;
-  padding: 0 1rem;
+  background: #f6f7fb;
+  color: #111827; /* dark text for readability */
+  border-top: 1px solid #e5e7eb;
+  margin-top: 24px;
 }
 
-.footer__link {
-  color: inherit;
-  text-decoration: underline;
+.footer__inner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 14px 16px 26px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer__left {
+  font-weight: 600;
+}
+.footer__sep {
+  opacity: 0.5;
+}
+.footer__right {
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+.footer__version {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.75;
+  margin-left: 0.25rem;
 }

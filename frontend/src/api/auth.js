@@ -2,7 +2,9 @@ const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:3000/api";
 
 function handle(res) {
   if (!res.ok) {
-    return res.text().then((t) => { throw new Error(t || res.statusText); });
+    return res.text().then((t) => {
+      throw new Error(t || res.statusText);
+    });
   }
   return res.json();
 }

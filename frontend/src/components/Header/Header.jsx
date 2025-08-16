@@ -1,39 +1,63 @@
-import { Link, useNavigate  } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./Header.css";
 
 function Header({ user, onLogout }) {
   const nav = useNavigate();
-
-  function handleLogoutClick() {
-    onLogout();
-    nav("/", { replace: true });
-  }
+  const linkClass = ({ isActive }) =>
+    `siteHeader__link${isActive ? " siteHeader__link--active" : ""}`;
 
   return (
-    <header className="header">
-      <h1 className="header__brand">HelpDesk AI</h1>
-      <nav className="header__nav">
-        <Link className="header__link" to="/">Home</Link>
-        <Link className="header__link" to="/snippets">Snippets</Link>
-        <Link className="header__link" to="/about">About</Link>
+    <header className="siteHeader" role="banner">
+      <div className="container siteHeader__bar">
+        <button
+          className="siteHeader__brand"
+          type="button"
+          onClick={() => nav("/")}
+        >
+          <span className="siteHeader__name">HelpDesk&nbsp;AI</span>
+        </button>
 
-        {user ? (
-          <>
-            <span className="header__user">Hi, {user.name}</span>
-            <button className="header__logout button" type="button" onClick={handleLogoutClick}>
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <Link className="header__link" to="/signin">Sign in</Link>
-            <Link className="header__link" to="/signup">Sign up</Link>
-          </>
-        )}
-      </nav>
+        <nav className="siteHeader__nav" aria-label="Primary">
+          <NavLink to="/" className={linkClass} end>
+            Home
+          </NavLink>
+          <NavLink to="/snippets" className={linkClass}>
+            Snippets
+          </NavLink>
+          <NavLink to="/about" className={linkClass}>
+            About
+          </NavLink>
+        </nav>
+
+        <div className="siteHeader__auth">
+          {user ? (
+            <>
+              <span className="siteHeader__user">Hi, {user.name}</span>
+              <button
+                className="button siteHeader__logout"
+                type="button"
+                onClick={() => {
+                  onLogout();
+                  nav("/");
+                }}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <NavLink to="/signin" className={linkClass}>
+                Sign in
+              </NavLink>
+              <NavLink to="/signup" className="button siteHeader__cta">
+                Sign up
+              </NavLink>
+            </>
+          )}
+        </div>
+      </div>
     </header>
   );
 }
-
 
 export default Header;

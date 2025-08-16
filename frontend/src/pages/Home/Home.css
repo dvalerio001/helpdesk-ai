@@ -1,65 +1,55 @@
 .home {
-  max-width: 860px;
-  margin: 24px auto 0;
-  padding: 0 1rem;
+  margin: 24px 0;
+}
+.home__card {
+  padding: 20px;
 }
 
 .home__title {
   margin: 0 0 8px 0;
 }
-
 .home__hint {
   margin: 0 0 12px 0;
-  color: #555;
-}
+  color: #6b7280;
+} /* slate-500 */
 
 .home__form {
   display: grid;
   gap: 8px;
 }
-
 .home__label {
   font-weight: 600;
 }
 
 .home__textarea {
   width: 100%;
-  padding: 12px;
-  font: inherit;
+  min-height: 140px;
   resize: vertical;
-  box-sizing: border-box;
 }
 
 .home__actions {
   margin-top: 8px;
   display: flex;
   gap: 8px;
-}
-
-.button {
-  padding: 8px 14px;
-  border: 1px solid #ccc;
-  background: #f7f7f7;
-  cursor: pointer;
-}
-
-.button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.button--secondary {
-  background: white;
+  flex-wrap: wrap;
 }
 
 .home__resultActions {
-  max-width: 860px;
-  margin: 12px auto 0;
-  padding: 0 1rem;
+  margin-top: 12px;
   display: flex;
   gap: 12px;
   align-items: center;
+  flex-wrap: wrap;
+}
+.home__flash {
+  color: #0a7f2e;
+}
+.home__error {
+  color: #b00020;
 }
 
-.home__flash { color: #0a7f2e; }
-.home__error { color: #b00020; }
+@media (max-width: 640px) {
+  .home__card {
+    padding: 16px;
+  }
+}

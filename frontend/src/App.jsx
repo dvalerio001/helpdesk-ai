@@ -10,18 +10,22 @@ import SignUp from "./pages/SignUp/SignUp.jsx";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx";
 import { getMe } from "./api/auth.js";
 
-
-
 function App() {
   const [user, setUser] = useState(null);
   const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) { setAuthChecked(true); return; }
+    if (!token) {
+      setAuthChecked(true);
+      return;
+    }
     getMe(token)
       .then((u) => setUser(u))
-      .catch(() => { localStorage.removeItem("token"); setUser(null); })
+      .catch(() => {
+        localStorage.removeItem("token");
+        setUser(null);
+      })
       .finally(() => setAuthChecked(true));
   }, []);
 
@@ -50,7 +54,12 @@ function App() {
             }
           />
 
-          <Route path="*" element={<div style={{ padding: "1rem" }}>404 — Page not found</div>} />
+          <Route
+            path="*"
+            element={
+              <div style={{ padding: "1rem" }}>404 — Page not found</div>
+            }
+          />
         </Routes>
       </main>
       <Footer />

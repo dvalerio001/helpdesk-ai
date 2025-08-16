@@ -1,14 +1,53 @@
 .about {
-  max-width: 860px;
-  margin: 24px auto 0;
-  padding: 0 1rem;
-  line-height: 1.6;
+  margin: 24px 0;
+}
+.about__card {
+  padding: 20px;
 }
 
 .about__title {
-  margin: 0 0 8px 0;
+  margin: 0 0 10px 0;
+}
+.about__lead {
+  margin: 0 0 14px 0;
+  color: #374151;
+} /* slate-700 */
+
+.about__subtitle {
+  margin: 16px 0 8px 0;
+  font-size: 1rem;
 }
 
-.about__text {
+.about__steps {
   margin: 0;
+  padding-left: 18px;
+}
+.about__steps li {
+  margin: 6px 0;
+}
+
+.about__bullets {
+  margin: 0;
+  padding-left: 18px;
+}
+.about__bullets li {
+  margin: 6px 0;
+}
+
+.about__smallprint {
+  margin-top: 14px;
+  color: #6b7280;
+} /* slate-500 */
+.about__link {
+  color: #2563eb;
+  text-decoration: underline;
+}
+.about__link:hover {
+  filter: brightness(0.95);
+}
+
+@media (max-width: 640px) {
+  .about__card {
+    padding: 16px;
+  }
 }

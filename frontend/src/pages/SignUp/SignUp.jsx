@@ -17,7 +17,6 @@ function SignUp({ onAuth }) {
     setLoading(true);
     try {
       await signup({ name: name.trim(), email: email.trim(), password });
-      // auto sign-in after signup
       const data = await signin({ email: email.trim(), password });
       localStorage.setItem("token", data.token);
       onAuth(data.user);
@@ -31,51 +30,61 @@ function SignUp({ onAuth }) {
 
   return (
     <section className="auth">
-      <h2 className="auth__title">Create account</h2>
-      <form className="auth__form" onSubmit={handleSubmit}>
-        <label className="auth__label" htmlFor="name">Name</label>
-        <input
-          id="name"
-          className="auth__input"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          minLength={2}
-          maxLength={40}
-          required
-        />
+      <div className="container">
+        <div className="card auth__card">
+          <h2 className="auth__title">Create account</h2>
+          <form className="auth__form" onSubmit={handleSubmit}>
+            <label className="auth__label" htmlFor="name">
+              Name
+            </label>
+            <input
+              id="name"
+              className="auth__input"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              minLength={2}
+              maxLength={40}
+              required
+            />
 
-        <label className="auth__label" htmlFor="email">Email</label>
-        <input
-          id="email"
-          className="auth__input"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+            <label className="auth__label" htmlFor="email">
+              Email
+            </label>
+            <input
+              id="email"
+              className="auth__input"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
 
-        <label className="auth__label" htmlFor="password">Password</label>
-        <input
-          id="password"
-          className="auth__input"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          minLength={8}
-        />
+            <label className="auth__label" htmlFor="password">
+              Password
+            </label>
+            <input
+              id="password"
+              className="auth__input"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={8}
+            />
 
-        <div className="auth__actions">
-          <button className="button" type="submit" disabled={loading}>
-            {loading ? "Creating…" : "Create account"}
-          </button>
+            <div className="auth__actions">
+              <button className="button" type="submit" disabled={loading}>
+                {loading ? "Creating…" : "Create account"}
+              </button>
+            </div>
+
+            {err && <p className="auth__error">{err}</p>}
+            <p className="auth__hint">
+              Already have an account? <Link to="/signin">Sign in</Link>
+            </p>
+          </form>
         </div>
-
-        {err && <p className="auth__error">{err}</p>}
-        <p className="auth__hint">
-          Already have an account? <Link to="/signin">Sign in</Link>
-        </p>
-      </form>
+      </div>
     </section>
   );
 }
