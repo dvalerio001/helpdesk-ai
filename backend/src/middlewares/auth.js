@@ -1,25 +1,14 @@
 import jwt from "jsonwebtoken";
-
 const JWT_SECRET = process.env.JWT_SECRET || "change-me";
 
-function auth(req, res, next) {
+export default function auth(req, res, next) {
+  const h = req.headers.authorization || "";
+  const token = h.startsWith("Bearer ") ? h.slice(7) : null;
+  if (!token) return res.status(401).json({ error: "Authorization required" });
   try {
-    const header = req.get("Authorization") || "";
-    const [, token] = header.split(" ");
-
-    if (!token) {
-      const err = new Error("Authorization required");
-      err.statusCode = 401;
-      throw err;
-    }
-
-    const payload = jwt.verify(token, JWT_SECRET);
-    req.user = { _id: payload._id };
-    next();
-  } catch (err) {
-    err.statusCode = err.statusCode || 401;
-    next(err);
+    req.user = jwt.verify(token, JWT_SECRET);
+    return next();
+  } catch {
+    return res.status(401).json({ error: "Invalid or expired token" });
   }
 }
-
-export default auth;

@@ -6,7 +6,6 @@ import rateLimit from "express-rate-limit";
 import { errors as celebrateErrors } from "celebrate";
 import router from "./routes/index.js";
 
-
 const app = express();
 
 // Core middleware
@@ -30,7 +29,6 @@ app.use("/api", router);
 // Celebrate validation errors
 app.use(celebrateErrors());
 
-
 // 404 handler
 app.use((req, res) => {
   res.status(404).json({ error: "Not Found" });
@@ -38,9 +36,10 @@ app.use((req, res) => {
 
 // Centralized error handler
 app.use((err, req, res, _next) => {
-  // eslint-disable-next-line no-console
   console.error(err);
-  res.status(err.statusCode || 500).json({ error: err.message || "Internal Server Error" });
+  res
+    .status(err.statusCode || 500)
+    .json({ error: err.message || "Internal Server Error" });
 });
 
 export default app;
