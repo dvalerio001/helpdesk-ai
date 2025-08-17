@@ -1,24 +1,39 @@
-# HelpDesk AI — Snippet & Solution Hub
+# Helpdesk AI
 
-A small app for tech-support workflows:
-- Generate AI-powered troubleshooting steps and root-cause suggestions
-- Save snippets (CRUD) with tags
-- Auth-protected personal workspace
+Generate step-by-step IT troubleshooting plans (e.g., “VPN won’t connect”), save them as **snippets**, and manage them after sign-in.
 
-## Monorepo Layout
-- `client/` – React app (Stage 1)
-- `server/` – Node/Express API (Stage 2–3)
+**Live site:** https://dvalerio001.github.io/helpdesk-ai/  
+**Backend (HTTPS base):** https://helpdesk-ai-978s.onrender.com/api
 
-## Requirements
-- Node 18+ (LTS)
-- Git
-- Postman
+---
 
-## Environments
-- Local dev: http://localhost:5173 (client), http://localhost:3000 (server)
-- Postman: use environment vars `base_url`, `token`
+## What it does
 
-## Milestones
-- [ ] Stage 1: Frontend + third-party AI API
-- [ ] Stage 2: Backend + DB + validation + security
-- [ ] Stage 3: React Auth + Protected routes
+- Describe an issue → AI returns **steps, commands, risks, rationale**
+- **Sign up / Sign in** (JWT stored in localStorage)
+- **Save**, **list**, and **delete** your own snippets (protected routes)
+
+## Tech
+
+- **Frontend:** React (Vite), React Router, Fetch API, plain CSS
+- **Backend:** Node.js, Express, MongoDB (Atlas), JWT, celebrate/Joi, Helmet
+- **AI model:** OpenAI `gpt-4o-mini`
+- **Hosting:** GitHub Pages (frontend), Render (backend)
+
+## API (quick reference)
+
+Base URL: `https://helpdesk-ai-978s.onrender.com/api`  
+Send `Authorization: Bearer <JWT>` on all except signup/signin.
+
+- `POST /signup` → `{ name, email, password }` → `201 Created`
+- `POST /signin` → `{ email, password }` → `{ token, user }`
+- `GET /users/me` → current user
+- `POST /ai/generate` → `{ issue }` → AI plan
+- `GET /snippets` → list your snippets
+- `POST /snippets` → `{ title, content, tags? }` → `201 Created`
+- `DELETE /snippets/:id` → delete a snippet
+
+## Deploy
+
+- **Frontend:** GitHub Pages (Vite `base: '/helpdesk-ai/'`, SPA fallback via `404.html`)
+- **Backend:** Render (build: `npm install`, start: `npm start`, HTTPS domain above)
