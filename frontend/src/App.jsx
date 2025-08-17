@@ -51,8 +51,8 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/signin" element={<SignIn setUser={setUser} />} />
-            <Route path="/signup" element={<SignUp setUser={setUser} />} />
+            <Route path="/signin" element={<SignIn onAuth={setUser} />} />
+            <Route path="/signup" element={<SignUp onAuth={setUser} />} />
             <Route
               path="*"
               element={
