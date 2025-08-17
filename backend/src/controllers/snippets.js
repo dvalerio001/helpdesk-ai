@@ -1,55 +1,43 @@
 import Snippet from "../models/Snippet.js";
 
-// GET /api/snippets (current user's snippets)
-async function listSnippets(req, res, next) {
+/** GET /api/snippets */
+export async function listMine(req, res, next) {
   try {
-    const docs = await Snippet.find({ owner: req.user._id })
-      .sort({ createdAt: -1 })
-      .lean();
-    res.json(docs);
+    const ownerId = req.user?._id;
+    const docs = await Snippet.find({ owner: ownerId }).sort({ createdAt: -1 });
+    return res.json(docs);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 }
 
-// POST /api/snippets
-async function createSnippet(req, res, next) {
+/** POST /api/snippets  (route validates { title, content }) */
+export async function create(req, res, next) {
   try {
-    const { title, body, tags = [] } = req.body;
+    const ownerId = req.user?._id;
+    const { title, content, tags = [] } = req.body; // map content -> body
     const doc = await Snippet.create({
-      owner: req.user._id,
       title,
-      body,
+      body: content,
       tags,
+      owner: ownerId,
     });
-    res.status(201).json({
-      _id: doc._id,
-      owner: doc.owner,
-      title: doc.title,
-      body: doc.body,
-      tags: doc.tags,
-      createdAt: doc.createdAt,
-      updatedAt: doc.updatedAt,
-    });
+    return res.status(201).json(doc);
   } catch (err) {
-    next(err);
+    return next(err);
   }
 }
 
-// DELETE /api/snippets/:id  (only if you own it)
-async function deleteSnippet(req, res, next) {
+/** DELETE /api/snippets/:id  (route validates :id) */
+export async function remove(req, res, next) {
   try {
+    const ownerId = req.user?._id;
     const { id } = req.params;
-    const deleted = await Snippet.findOneAndDelete({ _id: id, owner: req.user._id });
-    if (!deleted) {
-      const error = new Error("Snippet not found");
-      error.statusCode = 404;
-      throw error;
-    }
-    res.status(204).send(); // no content
+    const doc = await Snippet.findOne({ _id: id, owner: ownerId });
+    if (!doc) return res.status(404).json({ error: "Not found" });
+    await doc.deleteOne();
+    return res.json({ ok: true });
   } catch (err) {
-    next(err);
+    return next(err);
   }
 }
-
-export { listSnippets, createSnippet, deleteSnippet };
