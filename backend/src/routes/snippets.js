@@ -12,8 +12,11 @@ router.post(
   auth,
   celebrate({
     [Segments.BODY]: Joi.object({
-      title: Joi.string().min(1).max(200).required(),
-      content: Joi.string().min(1).required(),
+      // Align limits with your Mongoose model to avoid model-level rejections
+      title: Joi.string().min(1).max(120).required(),
+      content: Joi.string().min(1).max(5000).required(),
+      // <-- allow optional tags (array of short strings)
+      tags: Joi.array().items(Joi.string().trim().max(32)).max(10).optional(),
     }),
   }),
   c.create
