@@ -11,13 +11,15 @@ function handle(res) {
       throw new Error(msg);
     });
   }
-  // 204 (No Content) → return true
   return res.status === 204 ? true : res.json();
 }
 
 function listSnippets() {
   return fetch(`${API_BASE}/snippets`, {
-    headers: { Authorization: `Bearer ${getToken()}` },
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
   }).then(handle);
 }
 
@@ -28,7 +30,7 @@ function createSnippet({ title, body, tags }) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${getToken()}`,
     },
-    body: JSON.stringify({ title, body, tags }),
+    body: JSON.stringify({ title, content: body, tags }),
   }).then(handle);
 }
 
