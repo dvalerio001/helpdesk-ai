@@ -19,7 +19,7 @@ const allow = (process.env.CORS_ORIGIN || "")
 
 const corsOptions = {
   origin(origin, cb) {
-    if (!origin) return cb(null, true);
+    if (!origin) return cb(null, true); // server-to-server / health checks
     if (allow.includes(origin)) return cb(null, true);
     return cb(new Error("Not allowed by CORS"));
   },
@@ -29,7 +29,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+app.options(/.*/, cors(corsOptions)); // <-- changed from "*" to /.*/
 
 app.use(helmet());
 app.use(express.json({ limit: "1mb" }));
