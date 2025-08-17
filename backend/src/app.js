@@ -1,45 +1,60 @@
 import express from "express";
-import cors from "cors";
 import helmet from "helmet";
-import morgan from "morgan";
+import cors from "cors";
 import rateLimit from "express-rate-limit";
+import morgan from "morgan";
 import { errors as celebrateErrors } from "celebrate";
-import router from "./routes/index.js";
+
+import authRoutes from "./routes/auth.js"; // /signup, /signin  (public)
+import userRoutes from "./routes/users.js"; // /users/*
+import snippetRoutes from "./routes/snippets.js"; // /snippets/*
+import aiRoutes from "./routes/ai.js"; // /ai/generate
 
 const app = express();
 
-// Core middleware
+const allow = (process.env.CORS_ORIGIN || "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+const corsOptions = {
+  origin(origin, cb) {
+    if (!origin) return cb(null, true);
+    if (allow.includes(origin)) return cb(null, true);
+    return cb(new Error("Not allowed by CORS"));
+  },
+  credentials: false,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+
 app.use(helmet());
-app.use(cors({ origin: process.env.CORS_ORIGIN || true, credentials: false }));
 app.use(express.json({ limit: "1mb" }));
-app.use(morgan("dev"));
+app.use(morgan("combined"));
+app.use(rateLimit({ windowMs: 60_000, max: 100 }));
 
-// Basic rate limit
-const limiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 100 });
-app.use(limiter);
+app.get("/api/health", (_req, res) => res.json({ ok: true }));
 
-// Health check (for Postman & uptime monitors)
-app.get("/health", (req, res) => {
-  res.status(200).json({ status: "ok" });
-});
+// Routes (mount everything under /api)
+app.use("/api", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/snippets", snippetRoutes);
+app.use("/api/ai", aiRoutes);
 
-// API routes
-app.use("/api", router);
-
-// Celebrate validation errors
+// celebrate() validation errors
 app.use(celebrateErrors());
 
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({ error: "Not Found" });
-});
-
 // Centralized error handler
-app.use((err, req, res, _next) => {
-  console.error(err);
-  res
-    .status(err.statusCode || 500)
-    .json({ error: err.message || "Internal Server Error" });
+app.use((err, _req, res, _next) => {
+  if (err.message === "Not allowed by CORS") {
+    return res.status(403).json({ error: "CORS: origin not allowed" });
+  }
+  const status = err.status || err.statusCode || 500;
+  const message = err.message || "Server error";
+  res.status(status).json({ error: message });
 });
 
 export default app;

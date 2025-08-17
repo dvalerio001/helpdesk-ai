@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
+
 import Header from "./components/Header/Header.jsx";
 import Home from "./pages/Home/Home.jsx";
 import About from "./pages/About/About.jsx";
@@ -38,29 +39,28 @@ function App() {
     <div className="app">
       <Header user={user} onLogout={handleLogout} />
       <main className="app__main">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-
-          <Route path="/signin" element={<SignIn onAuth={setUser} />} />
-          <Route path="/signup" element={<SignUp onAuth={setUser} />} />
-
-          <Route
-            path="/snippets"
-            element={
-              <ProtectedRoute isAuthed={!!user} authChecked={authChecked}>
-                <Snippets />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="*"
-            element={
-              <div style={{ padding: "1rem" }}>404 — Page not found</div>
-            }
-          />
-        </Routes>
+        {authChecked && (
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route
+              path="/snippets"
+              element={
+                <ProtectedRoute>
+                  <Snippets />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/signin" element={<SignIn setUser={setUser} />} />
+            <Route path="/signup" element={<SignUp setUser={setUser} />} />
+            <Route
+              path="*"
+              element={
+                <div style={{ padding: "2rem" }}>404 — Page not found</div>
+              }
+            />
+          </Routes>
+        )}
       </main>
       <Footer />
     </div>

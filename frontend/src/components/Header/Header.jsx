@@ -1,52 +1,47 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./Header.css";
 
 function Header({ user, onLogout }) {
-  const nav = useNavigate();
   const linkClass = ({ isActive }) =>
     `siteHeader__link${isActive ? " siteHeader__link--active" : ""}`;
 
   return (
     <header className="siteHeader" role="banner">
       <div className="container siteHeader__bar">
-        <button
-          className="siteHeader__brand"
-          type="button"
-          onClick={() => nav("/")}
-        >
-          <span className="siteHeader__name">HelpDesk&nbsp;AI</span>
-        </button>
+        <Link to="/" className="siteHeader__brand" aria-label="Go to Home">
+          Helpdesk AI
+        </Link>
 
         <nav className="siteHeader__nav" aria-label="Primary">
-          <NavLink to="/" className={linkClass} end>
+          <NavLink to="/" end className={linkClass}>
             Home
-          </NavLink>
-          <NavLink to="/snippets" className={linkClass}>
-            Snippets
           </NavLink>
           <NavLink to="/about" className={linkClass}>
             About
+          </NavLink>
+          <NavLink to="/snippets" className={linkClass}>
+            Snippets
           </NavLink>
         </nav>
 
         <div className="siteHeader__auth">
           {user ? (
             <>
-              <span className="siteHeader__user">Hi, {user.name}</span>
+              <span className="siteHeader__user" title={user.email || ""}>
+                {user.name || "Account"}
+              </span>
               <button
-                className="button siteHeader__logout"
                 type="button"
-                onClick={() => {
-                  onLogout();
-                  nav("/");
-                }}
+                className="button button--ghost"
+                onClick={onLogout}
+                aria-label="Log out"
               >
-                Logout
+                Log out
               </button>
             </>
           ) : (
             <>
-              <NavLink to="/signin" className={linkClass}>
+              <NavLink to="/signin" className="button button--ghost">
                 Sign in
               </NavLink>
               <NavLink to="/signup" className="button siteHeader__cta">
