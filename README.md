@@ -1,4 +1,4 @@
-# Helpdesk AI
+# Helpdesk AI - branch: prod
 
 Generate step-by-step IT troubleshooting plans (e.g., “VPN won’t connect”), save them as **snippets**, and manage them after sign-in.
 
