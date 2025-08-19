@@ -20,10 +20,10 @@ Generate step-by-step IT troubleshooting plans (e.g., “VPN won’t connect”)
 - **AI model:** OpenAI `gpt-4o-mini`
 - **Hosting:** GitHub Pages (frontend), Render (backend)
 
-## API (quick reference)
+## API 
 
 Base URL: `https://helpdesk-ai-978s.onrender.com/api`  
-Send `Authorization: Bearer <JWT>` on all except signup/signin.
+Send `Authorization: Bearer <JWT>`
 
 - `POST /signup` → `{ name, email, password }` → `201 Created`
 - `POST /signin` → `{ email, password }` → `{ token, user }`
